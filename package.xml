@@ -16,7 +16,5 @@
   <buildtool_depend>catkin_simple</buildtool_depend>
 
   <depend>eigen</depend>
-  <depend>pangolin_catkin</depend>
-  <depend>opencv3_catkin</depend>
-
+  <depend>pangolin</depend>
 </package>

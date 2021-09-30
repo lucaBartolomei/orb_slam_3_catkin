@@ -1,12 +1,17 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(orb_slam_3_catkin)
 
-add_definitions(-std=c++11)
+add_definitions(-std=c++14)
 
 find_package(catkin_simple REQUIRED)
 catkin_simple()
 
 include_directories(${Eigen_INCLUDE_DIRS})
+
+find_package(Pangolin 0.4 REQUIRED)
+include_directories(${Pangolin_INCLUDE_DIRS})
+
+find_package(pybind11 REQUIRED)
 
 include(ExternalProject)
 
@@ -14,7 +19,7 @@ file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include)
 file(MAKE_DIRECTORY ${CATKIN_DEVEL_PREFIX}/include/orb_slam_3/CameraModels)
 
 ExternalProject_Add(orb_slam_3_src
-  GIT_REPOSITORY git@github.com:UZ-SLAMLab/ORB_SLAM3.git
+  GIT_REPOSITORY git@github.com:lucaBartolomei/ORB_SLAM3.git
   UPDATE_COMMAND ""
   #PATCH_COMMAND patch -p1 < ${CMAKE_SOURCE_DIR}/fix_usleep.patch
   CONFIGURE_COMMAND
@@ -57,7 +62,7 @@ ExternalProject_Add(orb_slam_3_src
 cs_add_library(${PROJECT_NAME} src/dependency_tracker.cpp)
 add_dependencies(${PROJECT_NAME} orb_slam_3_src)
 target_link_libraries(${PROJECT_NAME}
-  ${CATKIN_DEVEL_PREFIX}/lib/libORB_SLAM3${CMAKE_SHARED_LIBRARY_SUFFIX} ${catkin_LIBRARIES})
+  ${CATKIN_DEVEL_PREFIX}/lib/libORB_SLAM3${CMAKE_SHARED_LIBRARY_SUFFIX} ${catkin_LIBRARIES} ${Pangolin_LIBRARIES})
 
 cs_install()
 
